@@ -36,7 +36,8 @@ jobs:
         cmake -B build
         cmake --build build
     - name: Build map
-      run: make -j$(nproc) ${{ matrix.makeflags }} WINE=./tools/WiBo/build/wibo build/kar.kor/kar.map
+      if: matrix.makeflags == 'GENERATE_MAP=1'
+      run: make -j$(nproc) ${{ matrix.makeflags }} WINE=./tools/WiBo/build/wibo build/kar.kor/main.elf
     - name: Upload map
       if: matrix.makeflags == 'GENERATE_MAP=1'
       uses: actions/upload-artifact@v2
