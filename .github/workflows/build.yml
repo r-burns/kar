@@ -35,14 +35,16 @@ jobs:
       run: |
         cmake -B build
         cmake --build build
-    - name: Build KAR
-      run: make -j$(nproc) ${{ matrix.makeflags }} WINE=./tools/WiBo/build/wibo
+    - name: Build map
+      run: make -j$(nproc) ${{ matrix.makeflags }} WINE=./tools/WiBo/build/wibo build/kar.kor/kar.map
     - name: Upload map
       if: matrix.makeflags == 'GENERATE_MAP=1'
       uses: actions/upload-artifact@v2
       with:
         name: kar.map
         path: build/kar.kor/kar.map
+    - name: Build KAR
+      run: make -j$(nproc) ${{ matrix.makeflags }} WINE=./tools/WiBo/build/wibo
     - name: Calc progress
       if: matrix.makeflags == 'GENERATE_MAP=1'
       run: python3 calcprogress.py >> $GITHUB_STEP_SUMMARY
